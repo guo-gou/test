@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+    </head>
+    <body>
+        <div>
+            <form method="POST" enctype="multipart/form-data">	
+                <input type="file" onchange="verificationPicFile(this)" name="file" value="请选择文件"><br />	
+                <input type="submit">	
+              </form>
+              <script>
+                  function verificationPicFile(file) {
+                  var fileTypes = [".jpg", ".png"];
+                  var filePath = file.value;
+                  //当括号里面的值为0、空字符、false 、null 、undefined的时候就相当于false
+                  if(filePath){
+                  var isNext = false;
+                  var fileEnd = filePath.substring(filePath.indexOf("."));
+                  for (var i = 0; i < fileTypes.length; i++) {
+                  if (fileTypes[i] == fileEnd) {
+                  isNext = true;
+                  break;
+            }
+        }
+        if (isNext){
+            window.location.href="测试4.html";}
+}}
+              </script>
+          </div>
+    </body>
+</html>

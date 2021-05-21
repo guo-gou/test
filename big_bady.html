@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>文件传输小助手</title>
+        <style>
+   .contain{
+    width:100%;
+    height:100%;
+  }
+  .box
+  {
+     position: absolute;
+     width:400px;
+     height:700px;
+     border-radius: 20px;
+     box-shadow:5px 5px 25px 5px rgb(201, 201, 201);
+  }
+    .box2
+    {
+      position: absolute;
+      width:400px;
+      height:350px;
+      background-color: black;
+       border-radius:20px 20px 0px 0px;
+    }
+    /*响应式布局*/
+    /*媒体查询：注意and后面空格的添加*/
+    @media screen and (max-device-width: 600px) and (min-device-width: 360px){
+     .contain .box{
+            width:90%;
+            height:90%;
+        }
+        .contain .box2{
+          width:100%;
+          height:45%;
+        }
+        .contain #box1
+        {
+          width:60%;
+          position: absolute;
+          top:50%;
+          left:25%;
+        }
+        .contain img
+        {
+          width:200px;
+          height:320px;
+          position: absolute;
+          top:28%;
+          left:39%;
+          }
+        .contain .t{
+          font-size: 40px;
+          position: absolute;
+          top:2%;
+          left:23%;
+        }
+        .contain .name{
+          font-size: 35px;
+          position: absolute;
+          top:38%;
+          left:19%;
+        }
+      .contain input{
+             width:360px;
+             height:100px;
+             font-size: 33px;
+      }
+      .contain .a{
+        position: absolute;
+        top:73%;
+        left:9%;
+      }
+      .contain .b{
+        position: absolute;
+        top:108%;
+        left:9%;
+      }
+      .contain .nam{
+        position:absolute;
+        top:55%;
+        left:19%;
+      }
+      .contain  #progress_bar
+      {
+          width:800px;
+          height:25px;
+          position: absolute;
+          top:150%;
+          left:-35%;
+          font-size: 20px;
+      }
+    }
+     #box1
+      {
+        position: absolute;
+        top:48%;
+        left:0px;
+        width: 400px;
+        height:364px;
+        border-radius:0px 0px 20px 20px;
+        background-color: white;
+      }
+      img{
+          position: absolute;
+          top:15%;
+          left:34%;
+          }
+      .t
+      {
+          font-size: 20px;
+          position: absolute;
+          top:4%;
+          left:35%;
+      }
+            .name
+            {
+                font-size: 15px;
+                color:rgb(67, 187, 235);
+                position: absolute;
+                top:22%;
+                left:34%;
+                border: 0px;
+                box-shadow:0px 0px 0px 0px white;
+            }
+            .nam
+            {
+                font-size: 15px;
+                color:rgb(67, 187, 235);
+                position: absolute;
+                top:28%;
+                left:20%;
+                border: 0px;
+                box-shadow:0px 0px 0px 0px white;
+            }
+            #file-upload-button
+            {
+              background-color: white;
+              color:white;
+            }
+            input{
+                width:190px;
+                height:55px;
+                font-size: 23px;
+                color: white;
+                border:0px;
+                border-radius: 17px;
+                box-shadow:0px 0px 3px 2px rgb(201, 199, 199);
+            }
+            .b
+            {
+                position: absolute;
+                top:60%;
+                left:24%;
+                background-color: #3eb990 
+            }
+            .a{
+                position: absolute;
+                top:40%;
+                left:24%;
+                background-color: rgb(42, 157, 202);
+                
+            }
+            /*鼠标移入的动画*/
+            .a:hover
+            {
+                cursor:pointer;
+                animation-name: example1;
+                animation-duration: 6s;
+            }
+            .b:hover
+            {
+                cursor:pointer;
+                animation-name: example;
+                animation-duration: 6s;
+            }
+            @keyframes example1 {
+                from {background-color: rgb(43, 182, 233);}
+                to {background-color: rgb(28, 102, 129);}
+             }
+            @keyframes example {
+                from {background-color: rgb(10, 175, 126);}
+                to {background-color: rgb(59, 119, 100);}
+             }
+             input:focus
+             {
+              outline: none;
+             }
+             #progress_bar {
+              margin: 10px 0;
+              padding: 3px;
+              border: 1px solid rgb(139, 139, 139);
+              font-size: 14px;
+              clear: both;
+              opacity: 0;
+              position: absolute;
+              top: 85%;
+              left:2%;
+              width:360px;
+            }
+            #progress_bar.loading {
+              opacity: 1.0;
+            }
+            #progress_bar .percent {
+              background-color: #99ccff;
+              height: auto;
+              width: 0;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="contain">
+            <div class="box">
+                    <div class="box2">
+                      <img src="logo.png"/>
+                    </div>
+                    <div id="box1">
+                     <p class="t">大宝贝助手</p>
+                     <label id="lb"></label><br>
+                     <form method="POST" enctype="multipart/form-data">	
+                        <div class="name">选择上传的文件</div>
+                        <input v-show="isShow" class="nam" type="file"  name="file" id="files" multiple="multiple" onchange="verificationPicFile(this)" @click="toggleIsShow">
+                        <input type="button" value="选择文件" class="a"  onclick="getFile()" ><br />	
+                        <input type="submit" value="上传文件" class="b">
+                     </form>
+                     <div id="progress_bar"><div class="percent">0%</div></div>
+                    </div>
+          </div>
+          </div>
+          <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+          <script>
+              var app= new Vue({
+                el:"#box1",
+                data:
+                {
+                  isShow:false
+                },
+                methods:
+                {
+                    toggleIsShow:function()
+                    {
+                      this.isShow=true;
+                    }
+                }
+              })
+              //判断文件的类型，如果为.jpg/.png则跳转，如果为文件则跳转
+              function verificationPicFile(file) {
+                  var fileTypes = [".jpg", ".png"];
+                  var filePath = file.value;
+                  //当括号里面的值为0、空字符、false 、null 、undefined的时候就相当于false
+                  if (filePath) {
+                  var isNext = false;
+                  var fileEnd = filePath.substring(filePath.indexOf("."));
+                  for (var i = 0; i < fileTypes.length; i++) {
+                  if (fileTypes[i] == fileEnd) {
+                  isNext = true;
+                  break;
+            }
+        }
+        if (isNext){
+            window.location.href="测试4.html";}
+}}
+              var clear = document.querySelector("#files");
+              var use= document.querySelector("#lb");
+              var out= document.querySelector(".nam");
+            function getFile(){
+                clear.click();
+            }//实现选择文件并且上传文件功能
+            var reader;
+            var progress = document.querySelector('.percent');
+            // 文件上传出错后的函数
+            function errorHandler(e) {
+              switch(e.target.error.code) {
+                case e.target.error.NOT_FOUND_ERR:
+                  alert('文件没找到');
+                  break;
+                case e.target.error.NOT_READABLE_ERR:
+                  alert('文件不可读');
+                  break;
+                case e.target.error.ABORT_ERR:
+                  break;
+                default:
+                  alert('读取文件时出错');
+              };
+            }
+            // 更新进度条
+            function updateProgress(e) {
+              // e 是一个 ProgressEvent.
+              if (e.lengthComputable) {
+                var percentLoaded = Math.round((e.loaded / e.total) * 100);
+                // 更新进度条长度
+                if (percentLoaded < 100) {
+                  progress.style.width = percentLoaded + '%';
+                  progress.textContent = percentLoaded + '%';
+                }
+              }
+            }
+            // 选择上传文件后的方法
+            function handleFileSelect(e) {
+              // 在选择新文件后重置进度指示器
+              progress.style.width = '0%';
+              progress.textContent = '0%';
+          
+              reader = new FileReader();
+              reader.onerror = errorHandler;
+              reader.onprogress = updateProgress;
+              reader.onabort = function(e) {
+                alert('已取消读取');
+              };
+              reader.onloadstart = function(e) {
+                document.getElementById('progress_bar').className = 'loading';
+              };
+              reader.onload = function(e) {
+                // 确保进度条最后显示100％
+                progress.style.width = '100%';
+                progress.textContent = '100%';
+                setTimeout("alert('文件已读取成功！')", 0);
+              }
+          
+              // 将文件作为二进制字符串读入
+              reader.readAsBinaryString(e.target.files[0]);
+            }
+          
+            document.getElementById('files').addEventListener('change', handleFileSelect, false);
+        </script>
+    </body>
+</html>

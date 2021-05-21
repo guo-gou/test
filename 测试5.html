@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+    </head>
+    <body>
+        <div id="box1">
+            <form method="POST" enctype="multipart/form-data">	
+                <input type="file" name="file" value="请选择文件" @click="checkImgType" ><br />	
+                <input type="submit">	
+              </form>
+          </div>
+          <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js" language="javascript" type="text/javascript"></script>
+          <script>
+              var app= new Vue({
+                el:"#box1",
+                data:
+                {
+                  isPicture:false
+                },
+                methods:
+                {
+                    checkImgType(file)
+              {
+	           //用文件名name后缀判断文件类型，可用size属性判断文件大小不能超过500k ， 前端直接判断的好处，免去服务器的压力。 
+	           if (!/\.(jpg|jpeg|png|GIF|JPG|PNG)$/.test(file.name) ) { 
+	           this.isPicture=false;     
+	           }
+               else
+               {
+	           this.isPicture=true; 
+               window.location.href='测试4.html';
+                }
+              }
+            }
+            })
+ 
+          </script>
+    </body>
+</html>
